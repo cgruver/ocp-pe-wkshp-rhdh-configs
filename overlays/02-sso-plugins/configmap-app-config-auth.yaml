@@ -60,7 +60,7 @@ data:
               timeout: { minutes: 1 }
               initialDelay: { seconds: 15 }
         gitlab:
-          gitlab:
+          default:
             host: gitlab-gitlab.{{ cluster_subdomain }}
             branch: main
             fallbackBranch: main

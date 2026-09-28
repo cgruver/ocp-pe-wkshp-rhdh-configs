@@ -14,3 +14,5 @@ data:
     plugins:
       - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-quickstart
         disabled: true
+      - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-gitlab-dynamic
+        disabled: true
