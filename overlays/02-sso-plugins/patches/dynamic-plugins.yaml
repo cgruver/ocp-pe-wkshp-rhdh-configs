@@ -21,8 +21,7 @@ data:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-gitlab-dynamic
         disabled: false
-      - package: 'oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/immobiliarelabs-backstage-plugin-gitlab:bs_1.45.3__6.13.0'
-        integrity: 'sha256:36b15f74c207839bd59de964030867b5ef7cfadb80fadf38b87d401c7aac5cf1'
+      - package: 'oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/immobiliarelabs-backstage-plugin-gitlab:{{inherit}}'
         disabled: false
         # Disable GitLab CI/CD pipelines card - we use Tekton (OpenShift Pipelines)
         pluginConfig:
@@ -38,16 +37,15 @@ data:
                         allOf:
                           - isGitlabAvailable
                           - false  # Force disable
-      - package: 'oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/immobiliarelabs-backstage-plugin-gitlab-backend:bs_1.45.3__6.13.0'
-        integrity: 'sha256:0c5b9ade408c824e957a683e808195177936c58928cd0ee25724079abff53cda'
+      - package: 'oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/immobiliarelabs-backstage-plugin-gitlab-backend:{{inherit}}'
         disabled: false
 
       # Argo CD
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-argo-cd-backend:bs_1.45.3__4.6.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-argo-cd-backend:{{inherit}}
         disabled: false
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-argocd:bs_1.45.3__2.4.4
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-argocd:{{inherit}}
         disabled: false
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-scaffolder-backend-argocd:bs_1.45.3__1.8.1
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-scaffolder-backend-argocd:{{inherit}}
         disabled: false
 
       # Kubernetes
@@ -59,7 +57,7 @@ data:
         disabled: false
 
       # Tekton
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-tekton:bs_1.45.3__3.33.3
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-tekton:{{inherit}}
         disabled: false
         pluginConfig:
           dynamicPlugins:
@@ -81,7 +79,7 @@ data:
         disabled: false
 
       # JIRA plugin (frontend overview card)
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-jira:bs_1.45.3__2.14.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/roadiehq-backstage-plugin-jira:{{inherit}}
         disabled: false
         pluginConfig:
           dynamicPlugins:
@@ -98,9 +96,9 @@ data:
                           - hasAnnotation: jira/project-key
 
       # SonarQube plugin
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube:bs_1.45.3__0.21.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube:{{inherit}}
         disabled: false
-      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube-backend:bs_1.45.3__0.15.0
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube-backend:{{inherit}}
         disabled: false
 
       - disabled: false

@@ -45,7 +45,7 @@ spec:
                     name: shared-storage
                   - mountPath: /rag-content
                     name: rag-data-volume
-              - image: 'quay.io/lightspeed-core/lightspeed-stack:0.4.0'
+              - image: 'quay.io/lightspeed-core/lightspeed-stack:0.6.2'
                 name: lightspeed-core
                 envFrom:
                   - secretRef:
@@ -62,7 +62,7 @@ spec:
                     name: shared-storage
             initContainers:
               - name: init-rag-data
-                image: 'quay.io/redhat-ai-dev/rag-content:release-1.9-lcs'
+                image: 'quay.io/redhat-ai-dev/rag-content:release-1.10-lls-0.5.0'
                 command:
                   - "sh"
                   - "-c"
