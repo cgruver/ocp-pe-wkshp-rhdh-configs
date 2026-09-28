@@ -1,0 +1,22 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: sonarqube-token
+  namespace: rhdh
+  labels:
+    app.kubernetes.io/name: backstage
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    name: vault-secret-store
+    kind: ClusterSecretStore
+  target:
+    name: sonarqube-token
+    creationPolicy: Owner
+  data:
+    - secretKey: SONARQUBE_TOKEN
+      remoteRef:
+        key: secrets/sonarqube/token
+        property: value

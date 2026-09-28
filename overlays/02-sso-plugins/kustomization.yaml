@@ -10,6 +10,7 @@ resources:
   - es-kubernetes-sa-token.yaml
   - es-mcp-secret.yaml
   - es-oauth-client.yaml
+  - es-sonarqube-token.yaml
   - secret-backstage-npmrc.yaml
 
 patches:

@@ -10,9 +10,7 @@ Attendees advance through stages by updating their Argo CD Application's `spec.s
 |------|-------|
 | `base/` | Minimal RHDH with guest auth |
 | `overlays/02-sso-plugins/` | SSO, integrations, and dynamic plugins |
-| `overlays/03-catalog-entities/` | Software catalog populated with Parasol entities |
-| `overlays/04-templates/` | Golden-path software templates and RBAC |
-| `overlays/05-lightspeed/` | AI assistant with Lightspeed and MCP |
+| `overlays/03-catalog-lightspeed-templates/` | Software catalog, AI assistant (Lightspeed + MCP), golden-path templates, and RBAC |
 
 ## Cluster values
 

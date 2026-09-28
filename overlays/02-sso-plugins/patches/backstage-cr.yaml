@@ -22,3 +22,4 @@ spec:
         - name: oauth-client
         - name: backend-secret
         - name: mcp-secret
+        - name: sonarqube-token

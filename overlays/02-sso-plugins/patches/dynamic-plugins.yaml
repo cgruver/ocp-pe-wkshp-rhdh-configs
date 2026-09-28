@@ -97,6 +97,12 @@ data:
                         allOf:
                           - hasAnnotation: jira/project-key
 
+      # SonarQube plugin
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube:bs_1.45.3__0.21.0
+        disabled: false
+      - package: oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-sonarqube-backend:bs_1.45.3__0.15.0
+        disabled: false
+
       - disabled: false
         package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
         pluginConfig:

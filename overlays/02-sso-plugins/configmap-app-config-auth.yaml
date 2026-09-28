@@ -86,6 +86,11 @@ data:
       proxyPath: /jira/api
       product: datacenter
 
+    sonarqube:
+      baseUrl: https://sonarqube-sonarqube.{{ cluster_subdomain }}
+      apiKey: ${SONARQUBE_TOKEN}
+      authType: Bearer
+
     proxy:
       endpoints:
         '/jira/api':
