@@ -11,6 +11,12 @@ spec:
         - name: app-config-auth
         - name: app-config-catalog
         - name: app-config-lightspeed
+    extraFiles:
+      - name: "lightspeed-stack.yaml"
+        mountPath: /app-root
+        key: lightspeed-stack.yaml
+        containers:
+          - lightspeed-core
     extraEnvs:
       envs:
         - name: NODE_TLS_REJECT_UNAUTHORIZED
@@ -28,57 +34,11 @@ spec:
       spec:
         template:
           spec:
-            containers:
-              - env:
-                  - name: VALIDATION_PROVIDER
-                    value: vllm
-                  - name: VALIDATION_MODEL_NAME
-                    value: qwen3-235b
-                envFrom:
-                  - secretRef:
-                      name: llama-stack-secrets
-                  - secretRef:
-                      name: backend-secret
-                image: 'quay.io/redhat-ai-dev/llama-stack:0.1.4'
-                name: llama-stack
-                volumeMounts:
-                  - mountPath: /app-root/.llama
-                    name: shared-storage
-                  - mountPath: /rag-content
-                    name: rag-data-volume
-              - image: 'quay.io/lightspeed-core/lightspeed-stack:0.6.2'
-                name: lightspeed-core
-                envFrom:
-                  - secretRef:
-                      name: backend-secret
-                volumeMounts:
-                  - mountPath: /app-root/lightspeed-stack.yaml
-                    name: lightspeed-stack
-                    subPath: lightspeed-stack.yaml
-                  - mountPath: /tmp/data/feedback
-                    name: shared-storage
-                  - mountPath: /tmp/data/transcripts
-                    name: shared-storage
-                  - mountPath: /tmp/data/conversations
-                    name: shared-storage
-            initContainers:
-              - name: init-rag-data
-                image: 'quay.io/redhat-ai-dev/rag-content:release-1.10-lls-0.5.0'
-                command:
-                  - "sh"
-                  - "-c"
-                  - "echo 'Copying RAG data...'; cp -r /rag/vector_db/rhdh_product_docs /rag-content/ && cp -r /rag/embeddings_model /rag-content/ && echo 'Copy complete.'"
-                volumeMounts:
-                  - mountPath: /rag-content
-                    name: rag-data-volume
             volumes:
               - $patch: replace
                 name: dynamic-plugins-root
                 persistentVolumeClaim:
                   claimName: dynamic-plugins-root
-              - configMap:
-                  name: lightspeed-stack
-                name: lightspeed-stack
               - emptyDir: {}
                 name: shared-storage
               - emptyDir: {}
