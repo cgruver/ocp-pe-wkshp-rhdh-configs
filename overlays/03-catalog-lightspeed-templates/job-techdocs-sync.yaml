@@ -1,0 +1,88 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: techdocs-sync
+  namespace: rhdh
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+  labels:
+    app.kubernetes.io/name: backstage
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      name: techdocs-sync
+    spec:
+      serviceAccountName: default
+      restartPolicy: Never
+      containers:
+        - name: techdocs-sync
+          image: registry.redhat.io/ubi9/ubi-minimal:latest
+          env:
+            - name: BACKEND_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: BACKEND_SECRET
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              echo "Starting TechDocs sync ($(date))"
+
+              RHDH_URL="https://backstage-backstage-rhdh.{{ cluster_subdomain }}"
+
+              # Wait for RHDH to be ready
+              echo "Waiting for RHDH to be ready..."
+              TIMEOUT=420
+              ELAPSED=0
+              while [ $ELAPSED -lt $TIMEOUT ]; do
+                if curl -sk -f "${RHDH_URL}/api/catalog/entities?limit=1" >/dev/null 2>&1; then
+                  echo "RHDH is ready after ${ELAPSED}s"
+                  break
+                fi
+                echo "RHDH not ready yet, waiting... (${ELAPSED}s/${TIMEOUT}s)"
+                sleep 5
+                ELAPSED=$((ELAPSED + 5))
+              done
+
+              if [ $ELAPSED -ge $TIMEOUT ]; then
+                echo "ERROR: RHDH did not become ready within ${TIMEOUT}s"
+                exit 1
+              fi
+
+              # Query catalog for entities with TechDocs annotation
+              echo "Querying catalog for entities with TechDocs..."
+              ENTITIES=$(curl -sk -H "Authorization: Bearer ${BACKEND_SECRET}" \
+                "${RHDH_URL}/api/catalog/entities?filter=metadata.annotations.backstage.io/techdocs-ref" | \
+                jq -r '.[] | "\(.kind | ascii_downcase)/\(.metadata.namespace // "default")/\(.metadata.name)"')
+
+              if [ -z "$ENTITIES" ]; then
+                echo "No entities with TechDocs found"
+                exit 0
+              fi
+
+              ENTITY_COUNT=$(echo "$ENTITIES" | wc -l | tr -d ' ')
+              echo "Found ${ENTITY_COUNT} entities with TechDocs"
+
+              # Pre-warm TechDocs for each entity
+              while IFS= read -r entity; do
+                echo "Syncing TechDocs for: $entity"
+                status=$(curl -sk -o /dev/null -w "%{http_code}" \
+                  -H "Authorization: Bearer ${BACKEND_SECRET}" \
+                  "${RHDH_URL}/api/techdocs/sync/${entity}")
+                printf '  %s → HTTP %s\n' "$entity" "$status"
+              done <<< "$ENTITIES"
+
+              echo "TechDocs sync complete ($(date))"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
