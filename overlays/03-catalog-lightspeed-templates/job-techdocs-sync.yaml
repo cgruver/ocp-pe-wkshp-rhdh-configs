@@ -44,7 +44,7 @@ spec:
               TIMEOUT=420
               ELAPSED=0
               while [ $ELAPSED -lt $TIMEOUT ]; do
-                if curl -sf "${RHDH_URL}/api/catalog/entities?limit=1" >/dev/null 2>&1; then
+                if curl -sf "${RHDH_URL}/" >/dev/null 2>&1; then
                   echo "RHDH is ready after ${ELAPSED}s"
                   break
                 fi
