@@ -32,9 +32,12 @@ spec:
             - |
               set -euo pipefail
 
+              echo "Installing dependencies..."
+              microdnf install -y jq
+
               echo "Starting TechDocs sync ($(date))"
 
-              RHDH_URL="http://backstage-developer-hub.rhdh.svc.cluster.local:7007"
+              RHDH_URL="http://backstage-developer-hub.rhdh.svc.cluster.local"
 
               # Wait for RHDH to be ready
               echo "Waiting for RHDH to be ready..."
@@ -59,7 +62,7 @@ spec:
               echo "Querying catalog for entities with TechDocs..."
               ENTITIES=$(curl -sf -H "Authorization: Bearer ${BACKEND_SECRET}" \
                 "${RHDH_URL}/api/catalog/entities?filter=metadata.annotations.backstage.io/techdocs-ref" | \
-                jq -r '.[] | "\(.kind | ascii_downcase)/\(.metadata.namespace // "default")/\(.metadata.name)"')
+                jq -r '.[] | "\(.metadata.namespace // "default")/\(.kind | ascii_downcase)/\(.metadata.name)"')
 
               if [ -z "$ENTITIES" ]; then
                 echo "No entities with TechDocs found"
