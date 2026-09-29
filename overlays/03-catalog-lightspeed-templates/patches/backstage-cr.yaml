@@ -12,11 +12,12 @@ spec:
         - name: app-config-catalog
         - name: app-config-lightspeed
     extraFiles:
-      - name: "lightspeed-stack.yaml"
-        mountPath: /app-root
-        key: lightspeed-stack.yaml
-        containers:
-          - lightspeed-core
+      configMaps:
+        - name: lightspeed-stack
+          mountPath: /app-root
+          key: lightspeed-stack.yaml
+          containers:
+            - lightspeed-core
     extraEnvs:
       envs:
         - name: NODE_TLS_REJECT_UNAUTHORIZED
