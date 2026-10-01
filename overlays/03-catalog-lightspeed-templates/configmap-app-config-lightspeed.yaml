@@ -65,8 +65,11 @@ data:
     backend:
       actions:
         pluginSources:
-          - software-catalog-mcp-tool
-          - techdocs-mcp-tool
+          - software-catalog-mcp-extras
+          - techdocs-mcp-extras
+          - scaffolder-mcp-extras
+          - catalog
+          - scaffolder-mcp-tool
       csp:
         upgrade-insecure-requests: false
         img-src:
