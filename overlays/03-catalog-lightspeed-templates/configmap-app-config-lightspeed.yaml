@@ -69,7 +69,7 @@ data:
           - techdocs-mcp-extras
           - scaffolder-mcp-extras
           - catalog
-          - scaffolder-mcp-tool
+          - scaffolder
       csp:
         upgrade-insecure-requests: false
         img-src:
