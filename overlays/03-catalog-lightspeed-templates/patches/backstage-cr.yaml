@@ -30,6 +30,9 @@ spec:
         - name: backend-secret
         - name: mcp-secret
         - name: sonarqube-token
+        - name: llama-stack-secrets
+          containers:
+            - lightspeed-core
   deployment:
     patch:
       spec:
