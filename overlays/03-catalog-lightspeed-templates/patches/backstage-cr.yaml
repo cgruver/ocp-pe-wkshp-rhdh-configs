@@ -45,5 +45,3 @@ spec:
                   claimName: dynamic-plugins-root
               - emptyDir: {}
                 name: shared-storage
-              - emptyDir: {}
-                name: rag-data-volume
