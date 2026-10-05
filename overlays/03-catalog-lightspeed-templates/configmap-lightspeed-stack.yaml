@@ -29,6 +29,6 @@ data:
     mcp_servers:
       - name: mcp::backstage
         provider_id: 'model-context-protocol'
-        url: 'http://localhost:7007/api/mcp-actions/v1'
+        url: 'http://backstage-developer-hub.rhdh.svc.cluster.local/api/mcp-actions/v1'
         authorization_headers:
           Authorization: 'client'

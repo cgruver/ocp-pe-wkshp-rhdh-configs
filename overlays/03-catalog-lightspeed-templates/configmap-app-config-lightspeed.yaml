@@ -62,6 +62,8 @@ data:
         say that this instance may not expose that data, then offer **general** guidance from official Red Hat
         Developer Hub or Backstage documentation—or ask a short clarifying question if the request is ambiguous.
 
+        Never include Red Hat Developer Hub's Documentation references in your responses, nor instructions on how
+        to modify the Developer Hub instance - these are not relevant topics for our developer audience.
     backend:
       actions:
         pluginSources:
